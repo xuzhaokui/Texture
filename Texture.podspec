@@ -1,21 +1,21 @@
 Pod::Spec.new do |spec|
   spec.name         = 'Texture'
-  spec.version      = '3.2.0'
+  spec.version      = '3.2.0.r'
   spec.license      =  { :type => 'Apache 2',  }
   spec.homepage     = 'http://texturegroup.org'
   spec.authors      = { 'Huy Nguyen' => 'hi@huynguyen.dev', 'Garrett Moon' => 'garrett@excitedpixel.com', 'Scott Goodson' => 'scottgoodson@gmail.com', 'Michael Schneider' => 'mischneider1@gmail.com', 'Adlai Holler' => 'adlai@icloud.com' }
   spec.summary      = 'Smooth asynchronous user interfaces for iOS apps.'
-  spec.source       = { :git => 'https://github.com/TextureGroup/Texture.git', :tag => spec.version.to_s }
+  spec.source       = { :git => 'https://github.com/xuzhaokui/Texture.git', :tag => spec.version.to_s }
   spec.module_name  = 'AsyncDisplayKit'
   spec.header_dir   = 'AsyncDisplayKit'
 
   spec.documentation_url = 'http://texturegroup.org/appledoc/'
-  
+
   ios_deployment_target = '14.0'
   tvos_deployment_target = '14.0'
   spec.ios.deployment_target = ios_deployment_target
   spec.tvos.deployment_target = tvos_deployment_target
-  
+
   # Subspecs
   spec.subspec 'Core' do |core|
     core.ios.deployment_target = ios_deployment_target
@@ -32,10 +32,10 @@ Pod::Spec.new do |spec|
       'Source/TextExperiment/Component/*.h',
       'Source/TextExperiment/String/ASTextAttribute.h',
     ]
-    
+
     core.source_files = [
       'Source/**/*.{h,mm}',
-      
+
       # Most TextKit components are not public because the C++ content
       # in the headers will cause build errors when using
       # `use_frameworks!` on 0.39.0 & Swift 2.1.
@@ -43,7 +43,7 @@ Pod::Spec.new do |spec|
       'Source/TextKit/*.h',
     ]
   end
-  
+
   spec.subspec 'PINRemoteImage' do |pin|
     pin.ios.deployment_target = ios_deployment_target
     pin.tvos.deployment_target = tvos_deployment_target
@@ -66,7 +66,7 @@ Pod::Spec.new do |spec|
     yoga.dependency 'Yoga', '~> 2.0'
     yoga.dependency 'Texture/Core'
   end
-  
+
   # If flag is enabled the old TextNode with all dependencies will be compiled out
   spec.subspec 'TextNode2' do |text_node|
     text_node.ios.deployment_target = ios_deployment_target
@@ -81,7 +81,7 @@ Pod::Spec.new do |spec|
     video.frameworks = ['AVFoundation', 'CoreMedia']
     video.xcconfig = { 'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) AS_USE_VIDEO=1' }
     video.dependency 'Texture/Core'
-  end 
+  end
 
   spec.subspec 'MapKit' do |map|
     map.ios.deployment_target = ios_deployment_target
@@ -117,5 +117,5 @@ Pod::Spec.new do |spec|
     'CLANG_CXX_LANGUAGE_STANDARD' => 'c++11',
     'CLANG_CXX_LIBRARY' => 'libc++'
    }
-   
+
 end
