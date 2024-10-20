@@ -10,7 +10,6 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <AsyncDisplayKit/ASDisplayNode.h>
 #import <AsyncDisplayKit/ASGraphicsContext.h>
-#import <AsyncDisplayKit/ASInternalHelpers.h>
 
 @interface ASDisplayNode (DrawAtScale)
 
