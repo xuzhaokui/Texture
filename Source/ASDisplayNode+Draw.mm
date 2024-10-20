@@ -9,6 +9,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <AsyncDisplayKit/ASDisplayNode+Draw.h>
 #import <AsyncDisplayKit/_ASDisplayLayer.h>
+#import <AsyncDisplayKit/ASDisplayNodeInternal.h>
 
 #define CHECK_CANCELLED_AND_RETURN(expr)                      if (isCancelledBlock()) { \
                                                                     expr; \
