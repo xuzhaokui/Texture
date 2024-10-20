@@ -41,7 +41,7 @@
   [self _drawSelfAtScale:scale isCancelledBlock:isCancelledBlock];
 
   for (ASDisplayNode *subnode in self.subnodes) {
-    [subnode drawAtScale:scale isCancelledBlock:isCancelledBlock];
+    [subnode drawAtScale:1.0 isCancelledBlock:isCancelledBlock];
   }
   CGContextRestoreGState(context);
 }
