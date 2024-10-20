@@ -11,10 +11,10 @@
 #import <AsyncDisplayKit/ASDisplayNode.h>
 #import <AsyncDisplayKit/ASGraphicsContext.h>
 
-@interface ASDisplayNode (DrawAtScale)
+@interface ASDisplayNode (DrawWithIsCancelledBlock)
 
 typedef void(^asyncdisplaykit_draw_block_t)(void);
 
-- (void)drawAtScale:(CGFloat)scale isCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock;
+- (void)drawWithIsCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock;
 
 @end

@@ -20,10 +20,9 @@
 @interface ASDisplayNode () <_ASDisplayLayerDelegate>
 @end
 
-@implementation ASDisplayNode (DrawAtScale)
+@implementation ASDisplayNode (DrawWithIsCancelledBlock)
 
-- (void)drawAtScale:(CGFloat)scale
-   isCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
+- (void)drawWithIsCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
 {
   CGContextRef context = UIGraphicsGetCurrentContext();
   if (!context) {
@@ -34,20 +33,17 @@
     return;
   }
   CGContextSaveGState(context);
-
-  CGContextScaleCTM(context, scale, scale);
   CGContextTranslateCTM(context, self.frame.origin.x, self.frame.origin.y);
 
-  [self _drawSelfAtScale:scale isCancelledBlock:isCancelledBlock];
+  [self _drawSelfWithIsCancelledBlock:isCancelledBlock];
 
   for (ASDisplayNode *subnode in self.subnodes) {
-    [subnode drawAtScale:1.0 isCancelledBlock:isCancelledBlock];
+    [subnode drawWithIsCancelledBlock:isCancelledBlock];
   }
   CGContextRestoreGState(context);
 }
 
-- (void)_drawSelfAtScale:(CGFloat)scale
-        isCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
+- (void)_drawSelfWithIsCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
 {
   __instanceLock__.lock();
   BOOL rasterizingFromAscendent = (_hierarchyState & ASHierarchyStateRasterized);
