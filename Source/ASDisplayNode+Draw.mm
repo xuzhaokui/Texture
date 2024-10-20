@@ -115,32 +115,25 @@
     }
   };
 
-  // We'll display something if there is clipping, translation and/or a background color.
-  BOOL shouldDisplay = backgroundColor || CGPointEqualToPoint(CGPointZero, frame.origin) == NO || clipsToBounds;
+  CGContextRef context = UIGraphicsGetCurrentContext();
 
-  // If we should display, then push a transform, draw the background color, and draw the contents.
-  // The transform is popped in a block added after the recursion into subnodes.
-  if (shouldDisplay) {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-
-    // support cornerRadius
-    if (clipsToBounds) {
-      if (cornerRadius) {
-        [[UIBezierPath bezierPathWithRoundedRect:bounds cornerRadius:cornerRadius] addClip];
-      } else {
-        CGContextClipToRect(context, bounds);
-      }
+  // support cornerRadius
+  if (clipsToBounds) {
+    if (cornerRadius) {
+      [[UIBezierPath bezierPathWithRoundedRect:bounds cornerRadius:cornerRadius] addClip];
+    } else {
+      CGContextClipToRect(context, bounds);
     }
-
-    // Fill background if any.
-    CGColorRef backgroundCGColor = backgroundColor.CGColor;
-    if (backgroundColor && CGColorGetAlpha(backgroundCGColor) > 0.0) {
-      CGContextSetFillColorWithColor(context, backgroundCGColor);
-      CGContextFillRect(context, bounds);
-    }
-
-    drawBlock();
   }
+
+  // Fill background if any.
+  CGColorRef backgroundCGColor = backgroundColor.CGColor;
+  if (backgroundColor && CGColorGetAlpha(backgroundCGColor) > 0.0) {
+    CGContextSetFillColorWithColor(context, backgroundCGColor);
+    CGContextFillRect(context, bounds);
+  }
+
+  drawBlock();
 }
 
 - (NSObject *)drawParameters
