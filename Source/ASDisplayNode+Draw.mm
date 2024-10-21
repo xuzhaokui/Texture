@@ -22,6 +22,20 @@
 
 @implementation ASDisplayNode (DrawWithIsCancelledBlock)
 
+- (void)completeLayoutIfNeeded
+{
+  [self layoutIfNeeded];
+  [self _ensureSubnodesLayouted];
+}
+
+- (void) _ensureSubnodesLayouted
+{
+  [self __layout];
+  for (ASDisplayNode *subnode in self.subnodes) {
+    [subnode _ensureSubnodesLayouted];
+  }
+}
+
 - (void)drawWithIsCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
 {
   CGContextRef context = UIGraphicsGetCurrentContext();
@@ -45,15 +59,6 @@
 
 - (void)_drawSelfWithIsCancelledBlock:(asdisplaynode_iscancelled_block_t)isCancelledBlock
 {
-  __instanceLock__.lock();
-  BOOL rasterizingFromAscendent = (_hierarchyState & ASHierarchyStateRasterized);
-  __instanceLock__.unlock();
-
-  // if super node is rasterizing descendants, subnodes will not have had layout calls because they don't have layers
-  if (rasterizingFromAscendent) {
-    [self __layout];
-  }
-
   // Capture these outside the draw block so they are retained.
   UIColor *backgroundColor = self.backgroundColor;
   CGRect bounds = self.bounds;
@@ -122,6 +127,7 @@
     }
   }
 
+  CHECK_CANCELLED_AND_RETURN();
   // Fill background if any.
   CGColorRef backgroundCGColor = backgroundColor.CGColor;
   if (backgroundColor && CGColorGetAlpha(backgroundCGColor) > 0.0) {
